@@ -1,0 +1,41 @@
+import sqlite3
+
+# Analyze function
+def analyze_query(query):
+    # Connect to local database
+    conn = sqlite3.connect('mydatabase.db')
+    cursor = conn.cursor()
+
+    # Execute the query with EXPLAIN QUERY PLAN to get the query plan
+    explain_query = 'EXPLAIN QUERY PLAN ' + query
+    cursor.execute(explain_query)
+    query_plan = cursor.fetchall()
+
+    # Print the query plan
+    print('Query plan:')
+    for row in query_plan:
+        print(row)
+
+    # Execute the query with EXPLAIN to get the execution details
+    explain_query = 'EXPLAIN ' + query
+    cursor.execute(explain_query)
+    execution_details = cursor.fetchall()
+
+    # Print the execution details
+    print('Execution details:')
+    for row in execution_details:
+        print(row)
+
+    # Close the database connection
+    conn.close()
+
+# Main function
+def main():
+    # Prompt the user for a SQL query
+    query = input('Enter a SQL query: ')
+
+    # Analyze the query
+    analyze_query(query)
+
+if __name__ == '__main__':
+    main()
